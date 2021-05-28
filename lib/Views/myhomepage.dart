@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'Group/group.dart';
-import 'Home/home.dart';
-import 'Playlist/playlist.dart';
-import 'Video/video.dart';
+import 'Group/grouppage.dart';
+import 'Home/homepage.dart';
+import 'Playlist/playlistpage.dart';
+import 'Video/videopage.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -18,10 +18,10 @@ class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
 
   List<Widget> _widgetOptions = <Widget>[
-    Home(),
-    Video(),
-    Group(),
-    Playlist(),
+    HomePage(),
+    VideoPage(),
+    GroupPage(),
+    PlaylistPage(),
   ];
 
   void _onItemTapped(int index) {
@@ -34,7 +34,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(widget.title,style: TextStyle(fontWeight: FontWeight.bold),),
       ),
       body: SafeArea(
           child: Center(
@@ -76,3 +76,4 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+

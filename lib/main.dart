@@ -12,11 +12,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Youtube analytic',
+      title: 'Youtube Analytic App',
       theme: ThemeData(
         primarySwatch: Colors.orange,
       ),
-      home: MyHomePage(title: 'Youtube analytic'),
+      home: MyHomePage(title: 'Youtube Analytics'),
     );
   }
 }
