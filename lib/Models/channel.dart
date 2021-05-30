@@ -1,14 +1,16 @@
+import 'package:youtube_analytics/Models/playlist.dart';
 import 'package:youtube_analytics/Models/videos.dart';
 
 class Channel {
-
   final String id;
   final String title;
   final String profilePictureUrl;
   final String subscriberCount;
   final String videoCount;
   final String uploadPlaylistId;
+  final String uploadVideoId;
   List<Video> videos;
+  List<PlayList> playlist;
 
   Channel({
     this.id,
@@ -18,6 +20,7 @@ class Channel {
     this.videoCount,
     this.uploadPlaylistId,
     this.videos,
+    this.uploadVideoId,
   });
 
   factory Channel.fromMap(Map<String, dynamic> map) {
@@ -28,7 +31,7 @@ class Channel {
       subscriberCount: map['statistics']['subscriberCount'],
       videoCount: map['statistics']['videoCount'],
       uploadPlaylistId: map['contentDetails']['relatedPlaylists']['uploads'],
+      uploadVideoId: map['contentDetails']['relatedPlaylists']['uploads'],
     );
   }
-
 }
