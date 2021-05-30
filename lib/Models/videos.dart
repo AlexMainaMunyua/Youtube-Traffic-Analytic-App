@@ -1,4 +1,3 @@
-
 class Video {
   final String id;
   final String title;
@@ -14,7 +13,7 @@ class Video {
 
   factory Video.fromMap(Map<String, dynamic> snippet) {
     return Video(
-      id: snippet['resourceId']['videoId'],
+      id: snippet['id'],
       title: snippet['title'],
       thumbnailUrl: snippet['thumbnails']['high']['url'],
       channelTitle: snippet['channelTitle'],

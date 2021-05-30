@@ -82,19 +82,50 @@ class VideoPage extends StatelessWidget {
               )),
             ),
           ),
-          Container(
+             Container(
             color: Colors.grey.shade200,
-            height: 40.0,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 8.0, left: 8.0, bottom: 8.0),
-              child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Views graph",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w400,
+            height: 50.0,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.only(top: 8.0, left: 8.0, bottom: 8.0),
+                  child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Views graph",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                        ),
+                      )),
+                ),
+                Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(30)),
                     ),
-                  )),
+                    margin: EdgeInsets.all(10.0),
+                    padding: EdgeInsets.all(5.0),
+                    width: MediaQuery.of(context).size.width * 0.40,
+                    child: Padding(
+                        padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                        child: DropdownButtonHideUnderline(
+                            child: DropdownButton(
+                          // items: _dropdownValues
+                          //     .map((value) => DropdownMenuItem(
+                          //         child: Text(value), value: value))
+                          //     .toList(),
+                          // onChanged: (String value) {
+                          //   setState(() {
+                          //     _currentlySelected = value;
+                          //   });
+                          // },
+                          isExpanded: false,
+                          hint: Text("Views"),
+                          // value: _currentlySelected,
+                        ))))
+              ],
             ),
           ),
           Padding(
@@ -110,47 +141,47 @@ class VideoPage extends StatelessWidget {
           ),
         ],
       ),
-      floatingActionButton: SpeedDial(
-        backgroundColor: Colors.orange,
+      // floatingActionButton: SpeedDial(
+      //   backgroundColor: Colors.orange,
 
-        /// both default to 16
-        marginEnd: 18,
-        marginBottom: 20,
-        icon: Icons.add,
-        activeIcon: Icons.remove,
+      //   /// both default to 16
+      //   marginEnd: 18,
+      //   marginBottom: 20,
+      //   icon: Icons.add,
+      //   activeIcon: Icons.remove,
 
-        visible: true,
+      //   visible: true,
 
-        closeManually: false,
-        curve: Curves.bounceIn,
-        overlayColor: Colors.black,
-        overlayOpacity: 0.3,
+      //   closeManually: false,
+      //   curve: Curves.bounceIn,
+      //   overlayColor: Colors.black,
+      //   overlayOpacity: 0.3,
 
-        elevation: 8.0,
+      //   elevation: 8.0,
 
-        gradientBoxShape: BoxShape.circle,
+      //   gradientBoxShape: BoxShape.circle,
 
-        children: [
-          SpeedDialChild(
-            child: Icon(
-              Icons.view_agenda,
-              color: Colors.orange,
-              size: 14,
-            ),
-            label: 'Views',
-            onTap: () => print('FIRST CHILD'),
-          ),
-          SpeedDialChild(
-            child: Icon(
-              Icons.favorite,
-              color: Colors.orange,
-              size: 14,
-            ),
-            label: 'Likes',
-            onTap: () => print('SECOND CHILD'),
-          ),
-        ],
-      ),
+      //   children: [
+      //     SpeedDialChild(
+      //       child: Icon(
+      //         Icons.view_agenda,
+      //         color: Colors.orange,
+      //         size: 14,
+      //       ),
+      //       label: 'Views',
+      //       onTap: () => print('FIRST CHILD'),
+      //     ),
+      //     SpeedDialChild(
+      //       child: Icon(
+      //         Icons.favorite,
+      //         color: Colors.orange,
+      //         size: 14,
+      //       ),
+      //       label: 'Likes',
+      //       onTap: () => print('SECOND CHILD'),
+      //     ),
+      //   ],
+      // ),
     );
   }
 }
