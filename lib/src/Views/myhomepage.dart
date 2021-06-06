@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:youtube_analytics/Views/Home/homePage.dart';
+import 'package:youtube_analytics/src/Views/Home/homePage.dart';
 
 import 'Group/grouppage.dart';
 import 'Playlist/playlistpage.dart';
@@ -34,7 +34,10 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title,style: TextStyle(fontWeight: FontWeight.bold),),
+        title: Text(
+          widget.title,
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
       ),
       body: SafeArea(
           child: Center(
@@ -76,4 +79,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
