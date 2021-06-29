@@ -16,7 +16,7 @@ final channelProviderByID = FutureProvider<Channel>((ref) {
 
   final data = ref.watch(apiProvider);
 
-  return data.fetchChannel(channelId: channelId);
+  return data.fetchChannel(channelId);
 });
 
 

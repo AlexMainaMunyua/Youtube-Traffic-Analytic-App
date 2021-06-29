@@ -36,6 +36,13 @@ dependencies:
   dropdown_below: ^0.0.7
   oauth2_client: ^2.2.0
   flutter_appauth: ^1.0.0
+  googleapis_auth: ^1.1.0
+  login_client: ^2.0.1
+  oauth2: ^2.0.0
+  shared_preferences: ^0.5.3+4
+  extension_google_sign_in_as_googleapis_auth: ^2.0.2
+  googleapis: ^3.0.0
+
 
 dev_dependencies:
   flutter_test:

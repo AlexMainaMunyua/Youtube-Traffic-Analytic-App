@@ -3,68 +3,65 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:oauth2_client/google_oauth2_client.dart';
 import 'package:oauth2_client/oauth2_helper.dart';
-import 'package:oauth2_client/access_token_response.dart';
 import 'package:youtube_analytics/src/Models/channel.dart';
 import 'package:youtube_analytics/src/Models/playlist.dart';
 import 'package:youtube_analytics/src/Models/videos.dart';
 import 'package:youtube_analytics/src/Utilities/keys.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
-
-// const AUTH_ENDIPOINT = 'https://accounts.google.com/o/oauth2/auth';
-// const CLIENT_ID =
-//     '617723282592-hmrkv914m2j26tk2vo4e7dt5ccs3ol5t.apps.googleusercontent.com';
-// const REDIRECT_URI = 'my.test.app';
-// const TOKEN_ENDPOINT = 'https://oauth2.googleapis.com/token';
-// var scopes = [
-//   'https://www.googleapis.com/auth/youtube.readonly',
-//   'https://www.googleapis.com/auth/yt-analytics.readonly',
-//   'https://www.googleapis.com/auth/yt-analytics-monetary.readonly',
-//   'https://www.googleapis.com/auth/youtube.readonly'
-// ];
-
-// var httpClient = http.Client();
+import 'package:shared_preferences/shared_preferences.dart';
 
 class APIService {
+  APIService();
+
   final String _baseUrl = 'www.googleapis.com';
   String _nextPageToken = '';
 
   FlutterAppAuth appAuth = FlutterAppAuth();
 
-  Future<Channel> fetchChannel({String channelId}) async {
-    GoogleOAuth2Client client = GoogleOAuth2Client(
-         customUriScheme: 'com.example.youtube_analytics',redirectUri: 'com.example.youtube_analytics:/oauth2redirect');
+  Future<void> fetchChannel(String channelId) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+
+    // GoogleOAuth2Client client = GoogleOAuth2Client(
+    //     customUriScheme: 'com.example.youtube_analytics',
+    //     redirectUri:
+    //         'com.googleusercontent.apps.617723282592-hmrkv914m2j26tk2vo4e7dt5ccs3ol5t:/oauth');
 
     // OAuth2Helper oAuth2Helper = OAuth2Helper(client,
-    //     grantType: OAuth2Helper.AUTHORIZATION_CODE,
     //     clientId:
     //         '617723282592-hmrkv914m2j26tk2vo4e7dt5ccs3ol5t.apps.googleusercontent.com',
     //     scopes: [
     //       'https://www.googleapis.com/auth/youtube.readonly',
     //       'https://www.googleapis.com/auth/yt-analytics.readonly',
     //       'https://www.googleapis.com/auth/yt-analytics-monetary.readonly',
-    //       'https://www.googleapis.com/auth/youtube.readonly'
-    //     ]);
-    AccessTokenResponse tknResp = await client.getTokenWithAuthCodeFlow(
+    // ]);
+
+    var helper = OAuth2Helper(
+        GoogleOAuth2Client(
+            redirectUri:
+                'com.googleusercontent.apps.617723282592-hmrkv914m2j26tk2vo4e7dt5ccs3ol5t:/oauth',
+            customUriScheme: 'com.example.youtube_analytics'),
+        clientId:
+            '617723282592-hmrkv914m2j26tk2vo4e7dt5ccs3ol5t.apps.googleusercontent.com');
+
+// ignore: deprecated_member_use
+    helper.setAuthorizationParams(
+        grantType: OAuth2Helper.AUTHORIZATION_CODE,
         clientId:
             '617723282592-hmrkv914m2j26tk2vo4e7dt5ccs3ol5t.apps.googleusercontent.com',
-        scopes: [
-          'https://www.googleapis.com/auth/youtube.readonly',
-          'https://www.googleapis.com/auth/yt-analytics.readonly',
-          'https://www.googleapis.com/auth/yt-analytics-monetary.readonly',
-          'https://www.googleapis.com/auth/youtube.readonly'
-        ]);
-    // final AuthorizationTokenResponse result =
-    //     await appAuth.authorizeAndExchangeCode(AuthorizationTokenRequest(
-    //         CLIENT_ID, REDIRECT_URI,
-    //         serviceConfiguration: AuthorizationServiceConfiguration(
-    //             AUTH_ENDIPOINT, TOKEN_ENDPOINT),
-    //         scopes: scopes));
+        scopes: ['https://www.googleapis.com/auth/drive.readonly']);
+
+    await preferences.setString('token', helper.getToken().toString());
+
+    String token = preferences.getString('token');
+
+    print(token);
 
     Map<String, String> parameters = {
       "part": 'snippet,contentDetails,statistics',
-      'id': channelId,
+      "id": channelId,
       'key': API_KEY,
     };
+
     Uri uri = Uri.https(
       _baseUrl,
       '/youtube/v3/channels',
@@ -73,39 +70,39 @@ class APIService {
 
     Map<String, String> headers = {
       HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.authorizationHeader: token
     };
 
-    //Get Channel
+
+
+    // http.Response response =
+    //     await helper.get('https://www.googleapis.com/drive/v3/files');
+
     // var response = await http.get(uri, headers: headers);
 
-    var httpClient = http.Client();
+    // print(response.statusCode);
 
-    http.Response response = await httpClient.get(uri,
-        headers: {'Authorization': 'Bearer' + tknResp.accessToken});
+    // if (response.statusCode == 200) {
+    //   Map<String, dynamic> data = json.decode(response.body)['items'][0];
+    //   Channel channel = Channel.fromMap(data);
 
-    // http.Response response = await oAuth2Helper.get('$uri', headers: headers);
+    //   channel.videos = await fetchVideosFromPlaylist(
+    //     playlistId: channel.uploadPlaylistId,
+    //   );
 
-    if (response.statusCode == 200) {
-      Map<String, dynamic> data = json.decode(response.body)['items'][0];
-      Channel channel = Channel.fromMap(data);
+    //   //fetch a list of uploaded playlist
+    //   // channel.playlist = await fetchPlayList(
+    //   //   channelId: chan,
+    //   // );
 
-      channel.videos = await fetchVideosFromPlaylist(
-        playlistId: channel.uploadPlaylistId,
-      );
-
-      //fetch a list of uploaded playlist
-      // channel.playlist = await fetchPlayList(
-      //   channelId: chan,
-      // );
-
-      //fetch a list of uploaded videos
-      // channel.videos = await fetchVideos(
-      //   videoId: channel.uploadVideoId,
-      // );
-      return channel;
-    } else {
-      throw json.decode(response.body)['error']['message'];
-    }
+    //   //fetch a list of uploaded videos
+    //   // channel.videos = await fetchVideos(
+    //   //   videoId: channel.uploadVideoId,
+    //   // );
+    //   return channel;
+    // } else {
+    //   throw json.decode(response.body)['error']['message'];
+    // }
   }
 
   Future<List<Video>> fetchVideosFromPlaylist({String playlistId}) async {
@@ -127,6 +124,7 @@ class APIService {
 
     //get Playlist Videos
     var response = await http.get(uri, headers: headers);
+
     if (response.statusCode == 200) {
       var data = json.decode(response.body);
 
@@ -179,3 +177,22 @@ class APIService {
     }
   }
 }
+
+// var helper = OAuth2Helper(
+//     GoogleOAuth2Client(
+//         redirectUri:
+//             'com.googleusercontent.apps.617723282592-hmrkv914m2j26tk2vo4e7dt5ccs3ol5t:/oauth',
+//         customUriScheme: 'com.example.youtube_analytics'),
+//     clientId:
+//         '617723282592-hmrkv914m2j26tk2vo4e7dt5ccs3ol5t.apps.googleusercontent.com');
+
+// // ignore: deprecated_member_use
+// helper.setAuthorizationParams(
+//     grantType: OAuth2Helper.AUTHORIZATION_CODE,
+//     clientId:
+//         '617723282592-hmrkv914m2j26tk2vo4e7dt5ccs3ol5t.apps.googleusercontent.com',
+//     scopes: [
+//       'https://www.googleapis.com/auth/youtube.readonly',
+//       'https://www.googleapis.com/auth/yt-analytics.readonly',
+//       'https://www.googleapis.com/auth/yt-analytics-monetary.readonly',
+//     ]);

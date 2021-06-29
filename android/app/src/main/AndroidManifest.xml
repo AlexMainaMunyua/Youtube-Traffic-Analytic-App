@@ -22,11 +22,12 @@
 			</intent-filter>
 		</activity>
 		<activity android:name="com.linusu.flutter_web_auth.CallbackActivity">
-			<intent-filter android:label="flutter_web_auth">
+			<intent-filter android:label="flutter_web_auth.CallbackActivity" android:autoVerify="true">
 				<action android:name="android.intent.action.VIEW" />
 				<category android:name="android.intent.category.DEFAULT" />
 				<category android:name="android.intent.category.BROWSABLE" />
-				<data android:scheme="com.example.youtube_analytics" />
+				<data android:scheme="com.googleusercontent.apps.617723282592-hmrkv914m2j26tk2vo4e7dt5ccs3ol5t" />
+				<data android:path= "/oauth"/>
 			</intent-filter>
 		</activity>
 		<!--
