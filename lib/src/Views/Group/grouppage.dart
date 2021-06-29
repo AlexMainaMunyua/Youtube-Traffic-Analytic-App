@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:youtube_analytics/Views/Group/widgets/groupgraph.dart';
+
+import 'widgets/groupgraph.dart';
 
 class GroupPage extends StatelessWidget {
   showAlertDialog(BuildContext context) {
