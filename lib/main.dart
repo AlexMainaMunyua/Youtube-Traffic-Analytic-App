@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:googleapis/youtubeanalytics/v2.dart';
 import 'dart:async';
 import 'dart:convert' show json;
 
@@ -17,7 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Youtube Analytic App',
+      title: 'Youtube Analytic Application',
       theme: ThemeData(
         primarySwatch: Colors.orange,
       ),
@@ -29,8 +28,7 @@ class MyApp extends StatelessWidget {
 }
 
 final GoogleSignIn _googleSignIn = GoogleSignIn(
-    // clientId:
-    //     '617723282592-hmrkv914m2j26tk2vo4e7dt5ccs3ol5t.apps.googleusercontent.com',
+  
     scopes: <String>[
       'email',
       'https://www.googleapis.com/auth/contacts.readonly',
@@ -94,7 +92,7 @@ class _DemoState extends State<Demo> {
   String _pickFirstNamedContact(Map<String, dynamic> data) {
     final List<dynamic> connections = data['connection'];
 
-    final Map<String, dynamic> contact = connections.firstWhere(
+    final Map<String, dynamic> contact = connections?.firstWhere(
         (dynamic contact) => contact['names'] != null,
         orElse: () => null);
     if (contact != null) {
@@ -127,12 +125,8 @@ class _DemoState extends State<Demo> {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           ListTile(
-            leading: GoogleUserCircleAvatar(
-              identity: user,
-              placeholderPhotoUrl: user.photoUrl,
-            ),
             title: Text(user.displayName ?? ""),
-            subtitle: Text(user.email),
+            subtitle: Text(user.displayName),
           ),
           const Text('Signed in successfully'),
           Text(_contactText),
